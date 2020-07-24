@@ -109,8 +109,13 @@ A sample controller included that demos db and mail connection.
 
 Go to http://localhost:8080/mail or http://localhost:8000/mail to generate a mail with content fetched from the database.
 
+<img src="https://raw.githubusercontent.com/kedomingo/simple-docker-laravel/master/mail.png" />
 
 
 Then to go http://localhost:1080/ to check your mailcatcher inbox
 
+<img src="https://raw.githubusercontent.com/kedomingo/simple-docker-laravel/master/mailcatcher.png" />
+
+
+-Kyle
 
