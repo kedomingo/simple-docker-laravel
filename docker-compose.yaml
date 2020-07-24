@@ -1,0 +1,57 @@
+version: '3.4'
+services:
+  # Access web using localhost:8080
+  # 1. Use an apache webserver and host the files here
+  apache:
+    build:
+      context: .
+      dockerfile: ./docker/web/Dockerfile
+    volumes:
+      # Make this entire directory available inside the /app directory of the container
+      - ./:/app
+      # Create the vhost entry for apache
+      - ./docker/web/httpd-vhosts.conf:/etc/apache2/sites-enabled/000-default.conf
+    ports:
+      - '8080:80'
+
+  # Access web using localhost:8000
+  # 2. Use an nginx webserver for the static files and...
+  nginx:
+    image: nginx:latest
+    ports:
+      - '8000:80'
+    volumes:
+      # This will serve static files only. index.php MUST not be here otherwise it will be served as a static file
+      - ./public/static:/app/public/static
+      # Setup the nginx configuration for reverse proxy
+      - ./docker/api/nginx.conf:/etc/nginx/nginx.conf
+    depends_on:
+      - nginx-fpm
+
+  # ...Host php here
+  nginx-fpm:
+    build:
+      context: .
+      dockerfile: ./docker/api/Dockerfile
+    volumes:
+      # Make this entire directory available inside the /app directory of the container
+      - ./:/app
+
+  # Access db using localhost:4306
+  database:
+    # The default root password of this image is test_pass
+    image: mariadb/server:10.4
+    ports:
+      - '4306:3306'
+    volumes:
+      - ../docker_volume/mariadb:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: 'test_pass'
+      MYSQL_USER: 'test'
+      MYSQL_PASS: 'pass'
+
+  # Your smtp server. Point to SMTP to mailcatcher:1025. Webmail is at localhost:1080
+  mailcatcher:
+    image: schickling/mailcatcher
+    ports:
+      - '1080:1080'
