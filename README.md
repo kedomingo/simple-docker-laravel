@@ -8,6 +8,8 @@
 
 ## Containers
 
+2 web servers are included to show that you can choose to run either Apache or Nginx+FPM
+
 ### apache
 Runs apache on port 80 internally. Externally available at port 8080. This is configured using the attached `httpd-vhosts.conf`
  
