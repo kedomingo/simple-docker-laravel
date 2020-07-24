@@ -58,7 +58,59 @@ The root password and access is configured using `MYSQL_ROOT_PASSWORD` and  `MYS
 This is only valid on first boot. When you change the root password in `docker-compose.yaml`, it will not reflect because
 the mysql users table have already been initialized.
 
-# mailcatcher
+#### mailcatcher
 
 SMTP server running at port 1025 used to test email sending. Access the emails using its builtin webmail client at
 http://localhost:1080/
+
+
+### Testing
+
+#### DB setup
+
+Login to mysql and create the database `laravel`
+
+```
+$ mysql -u root --password --port 4306 
+
+> CREATE DATABASE laravel
+```
+
+Here's the tricky part, .env is setup so that laravel inside the container can access the DB in another container.
+So the hostname is set to `database` and port to `3306`, database's insternal port.
+
+You have to change this to `127.0.0.1` and `4306` to be able run artisan commands because this is done *outside* the containers.
+
+```
+# Temporarily set this in .env to run artisan commands
+DB_HOST=127.0.0.1
+DB_PORT=4306
+```
+
+Initialize database
+
+```
+# Install the migrations table
+php artisan migrate:install
+
+# Run migrations
+php artisan migrate
+```
+
+Restore .env
+```
+# Temporarily set this in .env to run artisan commands
+DB_HOST=database
+DB_PORT=3306
+```
+
+A sample controller included that demos db and mail connection.
+
+
+Go to http://localhost:8080/mail or http://localhost:8000/mail to generate a mail with content fetched from the database.
+
+
+
+Then to go http://localhost:1080/ to check your mailcatcher inbox
+
+
