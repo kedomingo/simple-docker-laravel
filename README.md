@@ -5,6 +5,7 @@
 3. Run `cp .env.sample .env` to prepare Laravel
 4. Run `php artisan key:generate` to prepare Laravel
 5. Run `docker-compose up` to spin up the docker containers
+6. Go to http://localhost:8080/ or http://localhost:8000/
 
 ## Containers
 
@@ -17,7 +18,7 @@ There are 2 ways to assign docker images to to the containers:
 
       image: nginx:latest
 
-* Build one from a default image. This is done using a Dockerfile. In this example `apache` is using the base PHP image `php:7.2-apache` and installs additional things to it like PDO, pdo_mysql, and the rewrite apache module.  This is done in docker-compose.yaml as
+* Build a custom one from a default image. This is done using a Dockerfile. In this example, `apache` is using the base PHP image `php:7.2-apache` and installs additional things to it like PDO, pdo_mysql, and apache rewrite module.  This is done in docker-compose.yaml as
 
 
         build:
@@ -27,11 +28,10 @@ There are 2 ways to assign docker images to to the containers:
 `context` is the directory that the Dockerfile "sees". In this example, the directories in the Dockerfile are all relative to the current working directory
 If ever you have a Dockerfile with a line that says `COPY somefile.txt /etc/somefile.txt`, it will attempt to look for the file `somefile.txt` in the current working directory, wherever this Dockerfile is located, because of the context definition.
 
-
 2 web servers are included to show that you can choose to run either Apache or Nginx+FPM.
 
 ### apache - runs apache2 with PHP 7.2, PDO, pdo_mysql
-Runs apache on port 80 internally. Externally available at port 8080. This is configured using the attached `httpd-vhosts.conf`
+This runs apache at port 80 internally. Externally available at port 8080. This is configured using the attached `httpd-vhosts.conf`
  
 This can be access on the browser at http://localhost:8080/
 
@@ -65,7 +65,7 @@ identified by the line in nginx.conf `fastcgi_pass  nginx-fpm:9000;`
 Runs php-fpm at port 9000 internally. This handles php requests. This cannot be accessed from outside the containers
 
 ### database
-Runs mariadb at port 3306 internally, 4306 externally. This uses a directory `../docker_volume/mysql` to persist the 
+This runs mariadb at port 3306 internally, 4306 externally. This uses a directory `../docker_volume/mysql` to persist the 
 mysql database files (otherwise the databases will be gone every restart).
 
 This can be accessed using any db client
@@ -82,7 +82,7 @@ the mysql users table have already been initialized.
 
 ### mailcatcher
 
-SMTP server running at port 1025 used to test email sending. Access the emails using its builtin webmail client at
+An SMTP server running is at port 1025. This can be used to test email sending. Access the emails using its builtin webmail client at
 http://localhost:1080/
 
 
@@ -98,10 +98,10 @@ $ mysql -u root --password --port 4306
 > CREATE DATABASE laravel
 ```
 
-Here's the tricky part, .env is setup so that laravel inside the container can access the DB in another container.
+Here's the tricky part: `.env` is setup so that laravel inside the container can access the DB in another container.
 So the hostname is set to `database` and port to `3306`, database's insternal port.
 
-You have to change this to `127.0.0.1` and `4306` to be able run artisan commands because this is done *outside* the containers. (This can be solved by having another container with the sole purpose of running `php artisan` but let's leave it like this for now)
+You have to change this to `127.0.0.1` and `4306` to be able run artisan commands in your terminal because this is done *outside* the containers. (This can be solved by having another container with the sole purpose of running `php artisan` but let's leave it like this for now)
 
 ```
 # Temporarily set this in .env to run artisan commands
@@ -158,7 +158,7 @@ b658cf847e1f        simpledocker_nginx-fpm   "docker-php-entrypoi…"   About a 
 
 You can "ssh" into one of these either by using the container id or the container name. Let's go inside the apache container. The command is `$ docker exec -it -u root <container> bash`
 
-```
+```bash
 docker exec -it -u root 332ac79c18e6 bash
 
 OR
@@ -176,7 +176,7 @@ root@332ac79c18e6:/var/www/html# ls -la /etc/somefile.html
 
 ### Rebuilding the containers
 
-Container images based on dockerfiles need to be rebuild when you make changes to their docker-compose.yaml or Dockerfile configuration. This can be done using either `docker-compose build <container>` or `docker-compose up --build` (to build all containers and up them afterwards)
+Container images based on Dockerfiles need to be rebuilt whenever you make changes to their docker-compose.yaml or Dockerfile configuration. This can be done by either `docker-compose build <container>` to build a specific container image or `docker-compose up --build` (to build all containers and up them afterwards)
 
 
 <hr />
