@@ -3,7 +3,7 @@
 1. Clone this repository
 2. Run `composer install` to install PHP dependencies
 3. Run `cp .env.sample .env` to prepare Laravel
-4. Run `php artisan key:geenrate` to prepare Laravel
+4. Run `php artisan key:generate` to prepare Laravel
 5. Run `docker-compose up` to spin up the docker containers
 
 ## Containers
