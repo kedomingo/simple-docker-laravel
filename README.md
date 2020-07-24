@@ -101,7 +101,7 @@ php artisan migrate
 
 Restore .env
 ```
-# Temporarily set this in .env to run artisan commands
+# Restore so laravel can access the DB from inside the container
 DB_HOST=database
 DB_PORT=3306
 ```
