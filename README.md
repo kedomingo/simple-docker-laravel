@@ -101,7 +101,7 @@ $ mysql -u root --password --port 4306
 Here's the tricky part, .env is setup so that laravel inside the container can access the DB in another container.
 So the hostname is set to `database` and port to `3306`, database's insternal port.
 
-You have to change this to `127.0.0.1` and `4306` to be able run artisan commands because this is done *outside* the containers.
+You have to change this to `127.0.0.1` and `4306` to be able run artisan commands because this is done *outside* the containers. (This can be solved by having another container with the sole purpose of running `php artisan` but let's leave it like this for now)
 
 ```
 # Temporarily set this in .env to run artisan commands
