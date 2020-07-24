@@ -1,79 +1,64 @@
-<p align="center"><img src="https://res.cloudinary.com/dtfbvvkyp/image/upload/v1566331377/laravel-logolockup-cmyk-red.svg" width="400"></p>
+## A simple demo how to use docker to serve a laravel application
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/d/total.svg" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/v/stable.svg" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/license.svg" alt="License"></a>
-</p>
+1. Clone this repository
+2. Run `composer install` to install PHP dependencies
+3. Run `cp .env.sample .env` to prepare Laravel
+4. Run `php artisan key:geenrate` to prepare Laravel
+5. Run `docker-compose up` to spin up the docker containers
 
-## About Laravel
+### Containers
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+#### apache
+Runs apache on port 80 internally. Externally available at port 8080. This is configured using the attached `httpd-vhosts.conf`
+ 
+This can be access on the browser at http://localhost:8080/
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+Other test pages
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+* Homepage with param - http://localhost:8080/?abc=123
+* PHP file with param - http://localhost:8080/index.php?abc=123
+* Static file - http://localhost:8080/static/images/hello.html
+* Static with param - http://localhost:8080/static/images/hello.html?v=123
 
-## Learning Laravel
+#### nginx + nginx-fpm
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+Test pages
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1500 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+* Homepage with param - http://localhost:8000/?abc=123
+* PHP file with param - http://localhost:8000/index.php?abc=123
+* Static file - http://localhost:8000/static/images/hello.html
+* Static with param - http://localhost:8000/static/images/hello.html?v=123
 
-## Laravel Sponsors
+##### nginx 
+Runs nginx at port 80 internally. Externally available at port 8000. This is configured using the attached `nginx.conf`.
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+This serves static files. By default, it serves `index.html` which does not exist. This is intentional so it does not 
+serve `index.php` as a static file. 
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- [UserInsights](https://userinsights.com)
-- [Fragrantica](https://www.fragrantica.com)
-- [SOFTonSOFA](https://softonsofa.com/)
-- [User10](https://user10.com)
-- [Soumettre.fr](https://soumettre.fr/)
-- [CodeBrisk](https://codebrisk.com)
-- [1Forge](https://1forge.com)
-- [TECPRESSO](https://tecpresso.co.jp/)
-- [Runtime Converter](http://runtimeconverter.com/)
-- [WebL'Agence](https://weblagence.com/)
-- [Invoice Ninja](https://www.invoiceninja.com)
-- [iMi digital](https://www.imi-digital.de/)
-- [Earthlink](https://www.earthlink.ro/)
-- [Steadfast Collective](https://steadfastcollective.com/)
-- [We Are The Robots Inc.](https://watr.mx/)
-- [Understand.io](https://www.understand.io/)
-- [Abdel Elrafa](https://abdelelrafa.com)
-- [Hyper Host](https://hyper.host)
-- [Appoly](https://www.appoly.co.uk)
-- [OP.GG](https://op.gg)
-- [云软科技](http://www.yunruan.ltd/)
+For all URLs, it will check if the path exists in public, otherwise, it will rewrite 
+it to `index.php`. The configuration checks if the URL is *.php and if so, passes the request to the FPM handler at port 9000
+identified by the line in nginx.conf `fastcgi_pass  nginx-fpm:9000;`
 
-## Contributing
+##### nginx-fpm
+Runs php-fpm at port 9000 internally. This handles php requests. This cannot be accessed from outside the containers
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+#### database
+Runs mariadb at port 3306 internally, 4306 externally. This uses a directory `../docker_volume/mysql` to persist the 
+mysql database files (otherwise the databases will be gone every restart).
 
-## Code of Conduct
+This can be accessed using any db client
+```
+host: 127.0.0.1
+port: 4306
+username: root
+password: root
+```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+The root password and access is configured using `MYSQL_ROOT_PASSWORD` and  `MYSQL_ROOT_HOST` (`grant all privileges to 'root'@'%''`).
+This is only valid on first boot. When you change the root password in `docker-compose.yaml`, it will not reflect because
+the mysql users table have already been initialized.
 
-## Security Vulnerabilities
+# mailcatcher
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+SMTP server running at port 1025 used to test email sending. Access the emails using its builtin webmail client at
+http://localhost:1080/

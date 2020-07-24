@@ -1,7 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="13f6e973-ce42-4099-ad65-ea10c34cde25" name="Default Changelist" comment="" />
+    <list default="true" id="13f6e973-ce42-4099-ad65-ea10c34cde25" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docker-compose.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/docker-compose.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docker/api/nginx.conf" beforeDir="false" afterPath="$PROJECT_DIR$/docker/api/nginx.conf" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -12,6 +18,9 @@
     <execution>
       <executable />
     </execution>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="PhpWorkspaceProjectConfiguration">
     <include_path>
@@ -118,6 +127,7 @@
     </include_path>
   </component>
   <component name="ProjectId" id="1f7k6EtOqqZEUzgLCAtiYlDCWOE" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="autoscrollFromSource" value="true" />
     <option name="autoscrollToSource" value="true" />
@@ -127,6 +137,7 @@
   </component>
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_package_manager_path" value="npm" />
@@ -141,11 +152,21 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1595576340627</updated>
-      <workItem from="1595576342838" duration="1046000" />
+      <workItem from="1595576342838" duration="5991000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="627" y="783" key="run.anything.popup" timestamp="1595581672893">
+      <screen x="0" y="23" width="1920" height="1057" />
+    </state>
+    <state x="627" y="783" key="run.anything.popup/0.23.1920.1057/153.1080.1680.996@153.1080.1680.996" timestamp="1595581672893" />
+    <state x="627" y="1386" width="670" height="676" key="search.everywhere.popup" timestamp="1595581680528">
+      <screen x="153" y="1080" width="1680" height="996" />
+    </state>
+    <state x="627" y="1386" width="670" height="676" key="search.everywhere.popup/0.23.1920.1057/153.1080.1680.996@153.1080.1680.996" timestamp="1595581680528" />
   </component>
 </project>
