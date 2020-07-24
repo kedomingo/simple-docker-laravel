@@ -128,7 +128,7 @@ DB_HOST=database
 DB_PORT=3306
 ```
 
-A sample controller included that demos db and mail connection.
+A sample controller is included that demos db and mail connection.
 
 
 Go to http://localhost:8080/mail or http://localhost:8000/mail to generate a mail with content fetched from the database.
