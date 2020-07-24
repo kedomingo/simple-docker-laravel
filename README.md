@@ -8,9 +8,11 @@
 
 ## Containers
 
+The containers and the images they are based on are defined in `docker-compose.yaml`.
+
 2 web servers are included to show that you can choose to run either Apache or Nginx+FPM
 
-### apache
+### apache - runs apache2 with PHP 7.2, PDO, pdo_mysql
 Runs apache on port 80 internally. Externally available at port 8080. This is configured using the attached `httpd-vhosts.conf`
  
 This can be access on the browser at http://localhost:8080/
@@ -41,7 +43,7 @@ For all URLs, it will check if the path exists in public, otherwise, it will rew
 it to `index.php`. The configuration checks if the URL is *.php and if so, passes the request to the FPM handler at port 9000
 identified by the line in nginx.conf `fastcgi_pass  nginx-fpm:9000;`
 
-#### nginx-fpm
+#### nginx-fpm - Runs PHP 7.2 with PDO, pdo_mysql
 Runs php-fpm at port 9000 internally. This handles php requests. This cannot be accessed from outside the containers
 
 ### database
