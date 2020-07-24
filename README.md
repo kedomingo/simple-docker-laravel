@@ -140,6 +140,45 @@ Then to go http://localhost:1080/ to check your mailcatcher inbox
 
 <img src="https://raw.githubusercontent.com/kedomingo/simple-docker-laravel/master/mailcatcher.png" />
 
+
+
+### Going inside the containers
+
+Run `docker ps` to see the running containers
+
+```
+kd558w kd558w % docker ps
+CONTAINER ID        IMAGE                    COMMAND                  CREATED              STATUS              PORTS                              NAMES
+332ac79c18e6        simpledocker_apache      "docker-php-entrypoi…"   About a minute ago   Up About a minute   0.0.0.0:8080->80/tcp               simpledocker_apache_1
+0e0732bff136        nginx:latest             "/docker-entrypoint.…"   About a minute ago   Up About a minute   0.0.0.0:8000->80/tcp               simpledocker_nginx_1
+0cc162f8cad5        mariadb/server:10.4      "docker-entrypoint.s…"   About a minute ago   Up About a minute   0.0.0.0:4306->3306/tcp             simpledocker_database_1
+b658cf847e1f        simpledocker_nginx-fpm   "docker-php-entrypoi…"   About a minute ago   Up About a minute   9000/tcp                           simpledocker_nginx-fpm_1
+7430ea213554        schickling/mailcatcher   "mailcatcher --no-qu…"   About a minute ago   Up About a minute   1025/tcp, 0.0.0.0:1080->1080/tcp   simpledocker_mailcatcher_1
+```
+
+You can "ssh" into one of these either by using the container id or the container name. Let's go inside the apache container. The command is `$ docker exec -it -u root <container> bash`
+
+```
+docker exec -it -u root 332ac79c18e6 bash
+
+OR
+
+docker exec -it -u root simpledocker_apache_1 bash
+```
+
+Remember the `somefile.txt` file that was copied in `docker/web/Dockerfile`? It has been copied as `/etc/somefile.html`
+
+```
+kd558w kd558w % docker exec -it -u root 332ac79c18e6 bash
+root@332ac79c18e6:/var/www/html# ls -la /etc/somefile.html
+-rw-r--r-- 1 root root 5 Jul 24 11:13 /etc/somefile.html
+```
+
+### Rebuilding the containers
+
+Container images based on dockerfiles need to be rebuild when you make changes to their docker-compose.yaml or Dockerfile configuration. This can be done using either `docker-compose build <container>` or `docker-compose up --build` (to build all containers and up them afterwards)
+
+
 <hr />
 -Kyle
 
