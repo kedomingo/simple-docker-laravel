@@ -13,11 +13,13 @@ The containers and the images they are based on are defined in `docker-compose.y
 There are 2 ways to assign docker images to to the containers: 
 
 * Use them as is. In this example, `nginx` is using the default image from dockerhub. This is done in docker-compose.yaml as
+
       ```
       image: nginx:latest
       ```
 
 * Build one from a default image. This is done using a Dockerfile. In this example `apache` is using the base PHP image `php:7.2-apache` and installs additional things to it like PDO, pdo_mysql, and the rewrite apache module.  This is done in docker-compose.yaml as
+
       ```
         build:
           context: .
