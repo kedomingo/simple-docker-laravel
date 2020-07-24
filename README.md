@@ -24,6 +24,9 @@ There are 2 ways to assign docker images to to the containers:
           context: .
           dockerfile: ./docker/web/Dockerfile
 
+`context` is the directory that the Dockerfile "sees". In this example, the directories in the Dockerfile are all relative to the current working directory
+If ever you have a Dockerfile with a line that says `COPY somefile.txt /etc/somefile.txt`, it will attempt to look for the file `somefile.txt` in the current working directory, wherever this Dockerfile is located, because of the context definition.
+
 
 2 web servers are included to show that you can choose to run either Apache or Nginx+FPM.
 
