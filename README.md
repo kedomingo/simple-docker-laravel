@@ -25,7 +25,7 @@ There are 2 ways to assign docker images to to the containers:
 
       image: nginx:latest
 
-* Build a custom one from a default image. This is done using a Dockerfile. In this example, `apache` is using the base PHP image `php:7.2-apache` and installs additional things to it like PDO, pdo_mysql, and apache rewrite module.  This is done in docker-compose.yaml as
+* Build a custom one from a default image. This is done using a Dockerfile. In this example, `apache` is using the base PHP image `php:8.1-apache` and installs additional things to it like PDO, pdo_mysql, and apache rewrite module.  This is done in docker-compose.yaml as
 
 
         build:
@@ -37,7 +37,7 @@ If ever you have a Dockerfile with a line that says `COPY somefile.txt /etc/some
 
 2 web servers are included to show that you can choose to run either Apache or Nginx+FPM.
 
-### apache - runs apache2 with PHP 7.2, PDO, pdo_mysql
+### apache - runs apache2 with PHP 8.1, PDO, pdo_mysql
 This runs apache at port 80 internally. Externally available at port 8080. This is configured using the attached `httpd-vhosts.conf`
  
 This can be access on the browser at http://localhost:8080/
@@ -68,7 +68,7 @@ For all URLs, it will check if the path exists in public, otherwise, it will rew
 it to `index.php`. The configuration checks if the URL is *.php and if so, passes the request to the FPM handler at port 9000
 identified by the line in nginx.conf `fastcgi_pass  nginx-fpm:9000;`
 
-#### nginx-fpm - Runs PHP 7.2 with PDO, pdo_mysql
+#### nginx-fpm - Runs PHP 8.1 with PDO, pdo_mysql
 Runs php-fpm at port 9000 internally. This handles php requests. This cannot be accessed from outside the containers
 
 ### database
