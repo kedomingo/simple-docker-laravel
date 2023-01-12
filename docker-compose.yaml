@@ -35,12 +35,23 @@ services:
 
   # ...Host php here
   nginx-fpm:
+    image: laravel-php # save this service as "laravel-php" image
     build:
       context: .
       dockerfile: ./docker/api/Dockerfile
     volumes:
       # Make this entire directory available inside the /app directory of the container
       - ./:/app
+
+  # For running artisan
+  artisan:
+    image: laravel-php # use the saved "laravel-php"
+    depends_on:
+      - nginx-fpm
+    volumes:
+      - ./:/app
+    entrypoint: php /app/artisan
+    working_dir: /app
 
   # Access db using localhost:4306
   database:
