@@ -12,7 +12,7 @@
 3. Run `cp .env.sample .env` to prepare Laravel
 4. Run `php artisan key:generate` to prepare Laravel (or you can use the built in docker-compose image for this. Run `docker-compose run --rm artisan key:generate`. You can use `docker-compose run --rm artisan <your artisan command>` as you wish)
 5. Run `docker-compose up` to spin up the docker containers
-6. Go to http://localhost:8080/ or http://localhost:8000/
+6. Go to http://localhost:8080/ (served by apache) or http://localhost:8000/ (served by nginx + php-fpm)
 
 ## Containers
 
