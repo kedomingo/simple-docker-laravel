@@ -1,5 +1,12 @@
 # A simple demo how to use docker to serve a laravel application
 
+## Requirements
+1. docker and docker-compose
+2. php (to run composer, and if you want to run artisan locally - outside the containers)
+3. composer
+
+## Installation
+
 1. Clone this repository
 2. Run `composer install` to install PHP dependencies
 3. Run `cp .env.sample .env` to prepare Laravel
