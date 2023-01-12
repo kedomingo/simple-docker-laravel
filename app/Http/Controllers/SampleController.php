@@ -29,6 +29,7 @@ class SampleController extends Controller
     }
 }
 
+
 class TestMail extends Mailable implements ShouldQueue
 {
 
